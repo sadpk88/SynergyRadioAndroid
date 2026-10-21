@@ -47,6 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SynergyRadio-debug-apk
-          path: SynergyRadioRadio/app/build/outputs/apk/debug/app-debug.apk
+          path: SynergyRadioAndroid/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
           
