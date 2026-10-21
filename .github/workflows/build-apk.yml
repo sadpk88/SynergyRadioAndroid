@@ -25,17 +25,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Check Android SDK
-        run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          which sdkmanager
-          sdkmanager --version
-
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses || true
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
       - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+        run: |
+          sdkmanager --sdk_root="$ANDROID_HOME" --install "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --sdk_root="$ANDROID_HOME" --licenses || true
 
       - name: Extract Android project
         run: unzip -o SynergyRadioAndroid.zip
