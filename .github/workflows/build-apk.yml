@@ -26,14 +26,10 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: |
-          sdkmanager --sdk_root="$ANDROID_HOME" --install "platforms;android-36" "build-tools;36.0.0"
-
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --sdk_root="$ANDROID_HOME" --licenses || true
+        uses: android-actions/setup-android@v4
+        with:
+          accept-android-sdk-licenses: 'true'
+          packages: 'platforms;android-36 build-tools;36.0.0'
 
       - name: Extract Android project
         run: unzip -o SynergyRadioAndroid.zip
@@ -51,6 +47,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SynergyRadio-debug-apk
-          path: SynergyRadioAndroid/app/build/outputs/apk/debug/app-debug.apk
+          path: SynergyRadioRadio/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           
