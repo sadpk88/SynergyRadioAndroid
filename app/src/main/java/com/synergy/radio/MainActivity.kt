@@ -22,23 +22,17 @@ class MainActivity : AppCompatActivity() {
         webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
+            // TRÈS IMPORTANT : Permet de lancer l'audio sans interaction tactile directe bloquante en arrière-plan
             mediaPlaybackRequiresUserGesture = false
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            // Force l'application à ne jamais utiliser le cache pour charger ton nouveau design
-            cacheMode = WebSettings.LOAD_NO_CACHE
         }
 
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
 
-        // Vide le cache interne de la WebView
-        webView.clearCache(true)
-
         webView.loadUrl("file:///android_asset/index.html")
     }
 
-    override fun onDestroy() {
-        webView.destroy()
-        super.onDestroy()
-    }
+    // IMPORTANT : On NE surcharge PAS onStop() ou onPause() pour détruire 
+    // ou mettre en pause le WebView, sinon la musique se coupe dès que tu quittes l'app.
 }
