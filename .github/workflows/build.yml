@@ -19,10 +19,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Configuration du SDK Android
-        uses: android-actions/setup-android@v3
+      - name: Accepter les licences Android SDK
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-      - name: Installation de Gradle et compilation de l'APK
+      - name: Installation de Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.5'
