@@ -24,11 +24,15 @@ class MainActivity : AppCompatActivity() {
             domStorageEnabled = true
             mediaPlaybackRequiresUserGesture = false
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            // Force l'application à ne jamais utiliser le cache pour charger ton nouveau design
             cacheMode = WebSettings.LOAD_NO_CACHE
         }
 
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
+
+        // Vide le cache interne de la WebView
+        webView.clearCache(true)
 
         webView.loadUrl("file:///android_asset/index.html")
     }
