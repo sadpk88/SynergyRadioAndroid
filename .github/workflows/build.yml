@@ -19,8 +19,29 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Accepter les licences Android SDK
-        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+      - name: Préparation automatique de la configuration Gradle
+        run: |
+          echo "android.useAndroidX=true" > gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
+
+          cat << 'EOF' > settings.gradle
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "SynergyRadio"
+          include ':app'
+          EOF
 
       - name: Installation de Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -28,7 +49,7 @@ jobs:
           gradle-version: '8.5'
 
       - name: Générer l'APK Debug
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleDebug
 
       - name: Télécharger l'APK compilé (Artifact)
         uses: actions/upload-artifact@v4
