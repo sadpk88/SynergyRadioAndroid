@@ -1,10 +1,7 @@
 package com.synergy.radio
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -32,27 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
-        webView.addJavascriptInterface(WebAppInterface(), "AndroidBridge")
 
         webView.loadUrl("file:///android_asset/index.html")
-    }
-
-    inner class WebAppInterface {
-        @JavascriptInterface
-        fun startForegroundService() {
-            val intent = Intent(this@MainActivity, RadioService::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                this@MainActivity.startForegroundService(intent)
-            } else {
-                this@MainActivity.startService(intent)
-            }
-        }
-
-        @JavascriptInterface
-        fun stopForegroundService() {
-            val intent = Intent(this@MainActivity, RadioService::class.java)
-            this@MainActivity.stopService(intent)
-        }
     }
 
     // IMPORTANT : On NE surcharge PAS onStop() ou onPause() pour détruire 

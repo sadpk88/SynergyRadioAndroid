@@ -1028,7 +1028,6 @@
         if (state.isPlaying) {
           state.isPlaying = false;
           audio.pause();
-          if (window.AndroidBridge) window.AndroidBridge.stopForegroundService();
           audio.removeAttribute('src');
           stopSynthAudio();
           statusEl.textContent = `En pause • ${state.host}:${state.port}`;
@@ -1038,7 +1037,6 @@
 
         state.isPlaying = true;
         updatePlayerUI();
-        if (window.AndroidBridge) window.AndroidBridge.startForegroundService();
 
         if (state.streamMode === 'synthDemo') {
           statusEl.textContent = 'Mode Test Audio Synthétisé actif • Diffusion fluide';
