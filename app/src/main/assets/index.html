@@ -1503,20 +1503,7 @@ class MainActivity : ComponentActivity() {
         document.getElementById('estimatedRevenueDisplay').textContent = `${total} $ CAD`;
       }
 
-      // Wire up all DOM listeners
-      function initEvents() {
-
-        // Language Toggle button
-        const langToggleBtn = document.getElementById('langToggleBtn');
-        if (langToggleBtn) {
-            langToggleBtn.addEventListener('click', () => {
-                state.language = state.language === 'fr' ? 'en' : 'fr';
-                updateLanguage();
-                saveData();
-                showToast(state.language === 'fr' ? 'Langue changée au français' : 'Language changed to English');
-            });
-        }
-
+      function initNavigationEvents() {
         // Nav buttons
         document.querySelectorAll('.nav-tab-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -1528,7 +1515,9 @@ class MainActivity : ComponentActivity() {
         document.getElementById('quickRequestJumpBtn').addEventListener('click', () => switchTab('tab-requests'));
         document.getElementById('openRequestTabBtn').addEventListener('click', () => switchTab('tab-requests'));
         document.getElementById('goToMonetizationBtn').addEventListener('click', () => switchTab('tab-monetize'));
+      }
 
+      function initPlayerEvents() {
         // Play / Pause
         document.getElementById('playPauseBtn').addEventListener('click', togglePlay);
 
@@ -1632,27 +1621,9 @@ class MainActivity : ComponentActivity() {
             showToast(`Arrêt automatique programmé dans ${state.sleepTimerMinutes} minutes`);
           }
         });
+      }
 
-        // Share button
-        document.getElementById('shareStationBtn').addEventListener('click', () => {
-          const shareText = `Écoutez ${state.stationName} en direct (${state.customStreamUrl}) !`;
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(shareText).catch(() => {});
-          }
-          showToast('Lien de partage Synergy Radio copié !');
-        });
-
-        // Non-intrusive banner controls
-        document.getElementById('hideAdBtn').addEventListener('click', () => {
-          state.showNativeBanner = false;
-          updateBannerVisibility();
-          showToast('Bannière masquée sans aucune coupure audio');
-        });
-
-        document.getElementById('adActionBtn').addEventListener('click', () => {
-          showToast('Ouverture de l’offre partenaire dans un nouvel onglet (la radio continue de jouer)');
-        });
-
+      function initRequestEvents() {
         // Song request form submission
         document.getElementById('songRequestForm').addEventListener('submit', (e) => {
           e.preventDefault();
@@ -1718,6 +1689,19 @@ class MainActivity : ComponentActivity() {
           a.click();
           document.body.removeChild(a);
           showToast('Liste des demandes exportée en CSV !');
+        });
+      }
+
+      function initMonetizationEvents() {
+        // Non-intrusive banner controls
+        document.getElementById('hideAdBtn').addEventListener('click', () => {
+          state.showNativeBanner = false;
+          updateBannerVisibility();
+          showToast('Bannière masquée sans aucune coupure audio');
+        });
+
+        document.getElementById('adActionBtn').addEventListener('click', () => {
+          showToast('Ouverture de l’offre partenaire dans un nouvel onglet (la radio continue de jouer)');
         });
 
         // Monetization controls
@@ -1799,6 +1783,28 @@ class MainActivity : ComponentActivity() {
           modal.classList.remove('flex');
           showToast('Merci ! Mode VIP Sans Bannière activé pour 24h');
         });
+      }
+
+      function initSettingsEvents() {
+        // Language Toggle button
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        if (langToggleBtn) {
+            langToggleBtn.addEventListener('click', () => {
+                state.language = state.language === 'fr' ? 'en' : 'fr';
+                updateLanguage();
+                saveData();
+                showToast(state.language === 'fr' ? 'Langue changée au français' : 'Language changed to English');
+            });
+        }
+
+        // Share button
+        document.getElementById('shareStationBtn').addEventListener('click', () => {
+          const shareText = `Écoutez ${state.stationName} en direct (${state.customStreamUrl}) !`;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareText).catch(() => {});
+          }
+          showToast('Lien de partage Synergy Radio copié !');
+        });
 
         // SonicPanel Config Form
         document.getElementById('sonicConfigForm').addEventListener('submit', (e) => {
@@ -1847,6 +1853,14 @@ class MainActivity : ComponentActivity() {
         });
       }
 
+      // Wire up all DOM listeners
+      function initEvents() {
+        initNavigationEvents();
+        initPlayerEvents();
+        initRequestEvents();
+        initMonetizationEvents();
+        initSettingsEvents();
+      }
       // Initialize app
       loadSavedData();
       renderRecentTracks();
