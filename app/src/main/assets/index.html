@@ -1128,9 +1128,10 @@
       function renderRecentTracks() {
         const container = document.getElementById('recentTracksList');
         if (!container) return;
+        const favKeys = new Set(state.favorites.map(f => f.key));
         container.innerHTML = state.recentTracks.map(item => {
           const key = `${item.artist} - ${item.title}`;
-          const isFav = state.favorites.some(f => f.key === key);
+          const isFav = favKeys.has(key);
           return `
             <div class="flex items-center justify-between gap-3 p-2.5 rounded-2xl bg-slate-900/75 border border-slate-800/90 hover:border-slate-700 transition">
               <div class="flex items-center gap-3 min-w-0">
