@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             domStorageEnabled = true
             // TRÈS IMPORTANT : Permet de lancer l'audio sans interaction tactile directe bloquante en arrière-plan
             mediaPlaybackRequiresUserGesture = false
-            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
         }
 
         webView.webViewClient = WebViewClient()
