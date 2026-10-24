@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:label="Synergy Radio"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
