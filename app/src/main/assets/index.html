@@ -961,12 +961,10 @@
           return [
             state.customStreamUrl,
             `https://${h}/${p}/stream`,
-            `https://${h}:${p}/stream`,
-            `http://${h}:${p}/stream`
+            `https://${h}:${p}/stream`
           ];
         }
         return [
-          `http://${h}:${p}/stream`,
           `https://${h}:${p}/stream`,
           `https://${h}/${p}/stream`
         ];
